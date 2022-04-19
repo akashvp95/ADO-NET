@@ -1,0 +1,35 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Data.SqlClient;
+
+namespace Assignment1._1
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            //string CS = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+            string CS = @"data source = LMI-5F5G2G2\SQLEXPRESS;database = practice;integrated security = SSPI";
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                SqlCommand cmd = new SqlCommand("select WinningTeam from football where Status = 'Win';select * from football where TeamName1 ='Japan' or TeamName2='Japan'", con);
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader(); // Executing the SQL query  
+                GridView1.DataSource = rdr;
+                GridView1.DataBind();
+
+                while (rdr.NextResult())
+                {
+                    GridView2.DataSource = rdr;
+                    GridView2.DataBind();
+                }
+               
+            }
+        }
+    }
+}
