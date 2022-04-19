@@ -1,0 +1,26 @@
+create table Football(MatchId int,TeamName1 varchar(40) not null,TeamName2 varchar(40)not null,Status varchar(10) not null,WinningTeam varchar(20)
+,Points int)
+
+insert into football values(1001,'Italy','France','Win','France',4)
+insert into football values(1002,'Brazil','Portugal','Draw',null,2)
+insert into football values(1003,'England','Japan','Win','England',4)
+insert into football values(1004,'USA','Russia','Win','Russia',4)
+insert into football values(1005,'Portugal','Italy','Draw',null,2)
+insert into football values(1006,'Brazil','France','Win','Brazil',4)
+insert into football values(1007,'England','Russia','Win','Russia',4)
+insert into football values(1008,'Japan','USA','Draw',null,2)
+
+select * from Football
+
+create proc spAddFootball
+@MatchId int,
+@TeamName1 varchar(30),
+@TeamName2 varchar(30),
+@Status varchar(10),
+@WinningTeam varchar(30),
+@Points int
+as
+begin
+	insert into football values(@MatchId,@TeamName1,@TeamName2,@Status,@WinningTeam,@Points)
+	--select @EmployeeId = SCOPE_IDENTITY()
+end
