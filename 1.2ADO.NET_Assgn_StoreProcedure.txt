@@ -1,0 +1,40 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Data.SqlClient;
+
+namespace AssignmentSP
+{
+    public partial class WebForm1 : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            //string CS = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+            string CS = "data source = LMI-5F5G2G2\\SQLEXPRESS; database = practice; integrated security=SSPI";
+            using (SqlConnection con = new SqlConnection(CS))
+            {
+                SqlCommand com = new SqlCommand("spAddFootball", con);  //creating  SqlCommand  object  
+                com.CommandType = System.Data.CommandType.StoredProcedure;  //here we declaring command type as stored Procedure  
+                con.Open();
+                //adding paramerters to  SqlCommand below 
+                com.Parameters.AddWithValue("@MatchId", TextBox1.Text);  
+                com.Parameters.AddWithValue("@TeamName1", TextBox2.Text.ToString());
+                com.Parameters.AddWithValue("@TeamName2", TextBox3.Text.ToString());
+                com.Parameters.AddWithValue("@Status", TextBox4.Text.ToString());
+                com.Parameters.AddWithValue("@WinningTeam", TextBox5.Text.ToString());
+                com.Parameters.AddWithValue("@Points", TextBox6.Text);                                            
+                com.ExecuteNonQuery();  
+                Label1.Text = "Records Submitted Successfull";//Displaying the Message through label
+            }
+        }
+    }
+}
